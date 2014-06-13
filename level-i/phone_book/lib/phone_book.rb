@@ -1,3 +1,5 @@
+require_relative 'entry_repository'
+
 class PhoneBook
   attr_reader :repository
 

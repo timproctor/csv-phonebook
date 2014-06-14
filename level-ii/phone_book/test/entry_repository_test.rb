@@ -5,6 +5,8 @@ require 'minitest/mock'
 require_relative '../lib/entry'
 require_relative '../lib/entry_repository'
 require_relative '../lib/db'
+require_relative '../lib/person'
+require_relative '../lib/phone_number'
 #
 class EntryRepositoryTest < Minitest::Test
   def people_data
@@ -12,7 +14,7 @@ class EntryRepositoryTest < Minitest::Test
       { id: "1", first_name: "Alice", last_name: "Smith" },
       { id: "2", first_name: "Bob", last_name: "Smith" },
       { id: "3", first_name: "Charlie", last_name: "Jones" }
-    ]
+    ].map {|row| Person.new(row)}
   end
 
   def people
@@ -24,7 +26,7 @@ class EntryRepositoryTest < Minitest::Test
       { person_id: "1", phone_number: "111.111.1111" },
       { person_id: "1", phone_number: "111.111.2222" },
       { person_id: "2", phone_number: "222-222-1111" }
-    ]
+    ].map {|row| Person.new(row)}
   end
 
   def phone_numbers

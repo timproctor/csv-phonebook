@@ -1,6 +1,8 @@
 require_relative '../lib/db'
 require 'csv'
 require_relative '../lib/entry'
+require_relative '../lib/person'
+require_relative '../lib/phone_number'
 
 class PhoneBook
   attr_reader :repository

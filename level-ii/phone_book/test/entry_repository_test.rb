@@ -40,8 +40,14 @@ class EntryRepositoryTest < Minitest::Test
     assert_equal 2, entries.length
     alice, bob = entries
     assert_equal "Alice Smith", alice.name
-    assert_equal ["111.111.1111", "111.111.2222"], alice.numbers
+    assert_equal ["(111) 111-1111", "(111) 111-2222"], alice.numbers
     assert_equal "Bob Smith", bob.name
-    assert_equal ["222-222-1111"], bob.numbers
+    assert_equal ["(222) 222-1111"], bob.numbers
   end
+
+  # def test_find_by_name
+  #   things = DB.find_by(:name, "tire")
+  #   assert_equal 2, things.size
+  #   assert_equal ["2", "3"], things.map {|thing| thing[:id]}
+  # end
 end

@@ -15,9 +15,22 @@ class EntryRepository
   def find_by_last_name(name)
     people.find_by(:last_name, name).map do |person|
       numbers = phone_numbers.find_by(:person_id, person[:id]).map do |number|
-        number[:phone_number]
+        format number[:phone_number]
+      end
+      Entry.new(person[:first_name], person[:last_name], numbers)
     end
-       Entry.new(person[:first_name], person[:last_name], numbers)
+  end
+
+  def find_by_last_name(name)
+    people.select do |person|
+      person[:last_name] == name
+    end.map do |person|
+      numbers = phone_numbers.select do |number|
+        number[:person_id] == person[:id]
+      end.map do |number|
+         format number[:phone_number]
+      end
+      Entry.new(person[:first_name], person[:last_name], numbers)
     end
   end
 
@@ -28,18 +41,14 @@ class EntryRepository
   # def phone_numbers
   #   DB.new(phone_numbers_data)
   # end
+  private
 
+  def format(number)
+    digits = number.delete("-.")
+    area_code = digits[0..2]
+    exchange = digits[3..5]
+    subscriber = digits[-4..-1]
 
-  # def find_by_last_name(name)
-  #   people.select do |person|
-  #     person[:last_name] == name
-  #   end.map do |person|
-  #     numbers = phone_numbers.select do |number|
-  #       number[:person_id] == person[:id]
-  #     end.map do |number|
-  #       number[:phone_number]
-  #     end
-  #     Entry.new(person[:first_name], person[:last_name], numbers)
-  #   end
-  # end
+    "(%s) %s-%s" % [area_code, exchange, subscriber]
+  end
 end

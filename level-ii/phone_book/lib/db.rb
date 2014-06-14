@@ -13,5 +13,5 @@ class DB
   def find_by(field, value)
     data.select {|datum| datum[field] == value}
   end
-  
+
 end

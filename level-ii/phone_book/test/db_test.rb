@@ -2,6 +2,7 @@ gem 'minitest', '~> 5.2'
 require 'minitest/autorun'
 require 'minitest/pride'
 require_relative '../lib/db'
+require 'csv'
 
 class DBTest < Minitest::Test
   def filename

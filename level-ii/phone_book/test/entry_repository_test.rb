@@ -4,10 +4,10 @@ require 'minitest/pride'
 require 'minitest/mock'
 require_relative '../lib/entry'
 require_relative '../lib/entry_repository'
-# require_relative '../lib/db'
+require_relative '../lib/db'
 #
 class EntryRepositoryTest < Minitest::Test
-  def people
+  def people_data
     [
       { id: "1", first_name: "Alice", last_name: "Smith" },
       { id: "2", first_name: "Bob", last_name: "Smith" },
@@ -15,7 +15,11 @@ class EntryRepositoryTest < Minitest::Test
     ]
   end
 
-  def phone_numbers
+  def people
+    DB.new(people_data)
+  end
+
+  def phone_numbers_data
     [
       { person_id: "1", phone_number: "111.111.1111" },
       { person_id: "1", phone_number: "111.111.2222" },
@@ -23,8 +27,12 @@ class EntryRepositoryTest < Minitest::Test
     ]
   end
 
+  def phone_numbers
+    DB.new(phone_numbers_data)
+  end
+
   def repository
-    @repository ||= EntryRepository.new(people, phone_numbers)
+    @repository ||= EntryRepository.new(people_data, phone_numbers_data)
   end
 
   def test_find_by_last_name

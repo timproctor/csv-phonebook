@@ -1,17 +1,21 @@
 class DB
 
-  def self.read(filename)
-    new CSV.open(filename, headers: true, header_converters: :symbol).to_a
+  def self.read(filename, klass)
+    rows = CSV.open(filename, headers: true, header_converters: :symbol)
+    objects = rows.map do |row|
+                klass.new(row)
+              end
+      new(objects)
   end
 
-  attr_reader :data
+  attr_reader :objects
 
-  def initialize(data)
-    @data = data
+  def initialize(objects)
+    @objects = objects
   end
 
-  def find_by(field, value)
-    data.select {|datum| datum[field] == value}
+  def find_by(attribute, value)
+    objects.select {|datum| datum.send(attribute) == value}
   end
 
 end

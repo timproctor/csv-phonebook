@@ -35,6 +35,8 @@ class EntryRepositoryTest < Minitest::Test
     @repository ||= EntryRepository.new(people_data, phone_numbers_data)
   end
 
+
+
   def test_find_by_last_name
     entries = repository.find_by_last_name("Smith").sort_by {|e| e.first_name}
     assert_equal 2, entries.length

@@ -21,18 +21,19 @@ class EntryRepository
     end
   end
 
-  def find_by_last_name(name)
-    people.select do |person|
-      person[:last_name] == name
-    end.map do |person|
-      numbers = phone_numbers.select do |number|
-        number[:person_id] == person[:id]
-      end.map do |number|
-         format number[:phone_number]
-      end
-      Entry.new(person[:first_name], person[:last_name], numbers)
-    end
-  end
+
+  # def find_by_last_name(name)
+  #   people.select do |person|
+  #     person[:last_name] == name
+  #   end.map do |person|
+  #     numbers = phone_numbers.select do |number|
+  #       number[:person_id] == person[:id]
+  #     end.map do |number|
+  #        format number[:phone_number]
+  #     end
+  #     Entry.new(person[:first_name], person[:last_name], numbers)
+  #   end
+  # end
 
   # def people
   #   DB.new(people_data)

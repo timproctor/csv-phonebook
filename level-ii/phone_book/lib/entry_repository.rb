@@ -4,7 +4,7 @@ class EntryRepository
     phone_numbers = DB.read(File.join(dir, 'phone_numbers.csv'), PhoneNumber)
     new(people: people, phone_numbers: phone_numbers)
   end
-  
+
   attr_reader :people, :phone_numbers
 
   def initialize(people, phone_numbers)
@@ -12,41 +12,28 @@ class EntryRepository
     @phone_numbers = phone_numbers
   end
 
-def find_by_last_name(name)
-  people.find_by(:last_name, name).map {|person|
+  def entry_for(person)
     numbers = phone_numbers.find_by(:person_id, person.id).map(&:to_s)
     Entry.new(person.first_name, person.last_name, numbers)
-  }
-end
+  end
 
-  # def find_by_last_name(name)
-  #   people.select do |person|
-  #     person[:last_name] == name
-  #   end.map do |person|
-  #     numbers = phone_numbers.select do |number|
-  #       number[:person_id] == person[:id]
-  #     end.map do |number|
-  #        format number[:phone_number]
-  #     end
-  #     Entry.new(person[:first_name], person[:last_name], numbers)
-  #   end
-  # end
+  def find_by_last_name(name)
+    people.find_by(:last_name, name).map {|person|
+      entry_for(person)
+    }
+  end
 
-  # def people
-  #   DB.new(people_data)
-  # end
-  #
-  # def phone_numbers
-  #   DB.new(phone_numbers_data)
-  # end
-  # private
-  #
-  # def format(number)
-  #   digits = number.delete("-.")
-  #   area_code = digits[0..2]
-  #   exchange = digits[3..5]
-  #   subscriber = digits[-4..-1]
-  #
-  #   "(%s) %s-%s" % [area_code, exchange, subscriber]
-  # end
+  def find_by_first_and_last_name(first, last)
+    (people.find_by(:first_name, first) & people.find_by(:last_name, last)).map {|person|
+      entry_for(person)
+    }
+  end
+
+  def find_by_number(number)
+    phone_numbers.find_by(:to_s, number).map {|number|
+      people.find_by(:id, number.person_id).map {|person|
+        entry_for(person)
+      }
+    }.flatten
+  end
 end

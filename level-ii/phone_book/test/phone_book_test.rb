@@ -4,6 +4,7 @@ require 'minitest/pride'
 require 'minitest/mock'
 require_relative '../lib/phone_book'
 
+
 class PhoneBookTest < Minitest::Test
   def repository
     @repository ||= Minitest::Mock.new

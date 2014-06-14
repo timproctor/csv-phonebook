@@ -2,6 +2,7 @@ gem 'minitest', '~> 5.2'
 require 'minitest/autorun'
 require 'minitest/pride'
 require_relative '../lib/phone_book'
+require_relative '../lib/entry_repository'
 
 class IntegrationTest < Minitest::Test
   def test_lookup_by_last_name

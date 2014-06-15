@@ -1,3 +1,4 @@
+
 class DB
 
   def self.read(filename, klass)

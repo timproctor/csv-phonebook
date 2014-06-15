@@ -1,8 +1,15 @@
+require_relative '../lib/db'
+require 'csv'
+require_relative '../lib/person'
+require_relative '../lib/phone_number'
+require_relative '../lib/entry'
+
+
 class EntryRepository
   def self.in(dir)
     people = DB.read(File.join(dir, 'people.csv'), Person)
     phone_numbers = DB.read(File.join(dir, 'phone_numbers.csv'), PhoneNumber)
-    new(people: people, phone_numbers: phone_numbers)
+    new(people, phone_numbers)
   end
 
   attr_reader :people, :phone_numbers
@@ -18,7 +25,7 @@ class EntryRepository
   end
 
   def find_by_last_name(name)
-    people.find_by(:last_name, name).map {|person|
+    people.find_by(last_name, name).map {|person|
       entry_for(person)
     }
   end
@@ -36,4 +43,34 @@ class EntryRepository
       }
     }.flatten
   end
+
 end
+
+# require_relative '../lib/db'
+# require 'csv'
+# require_relative '../lib/person'
+# require_relative '../lib/phone_number'
+# require_relative '../lib/entry'
+#
+# class EntryRepository
+#  attr_reader :people, :phone_numbers
+#
+#  def initialize(people, phone_numbers)
+#    @people        = people
+#    @phone_numbers = phone_numbers
+#  end
+#
+#  def self.in(dir)
+#    people = DB.read(File.join(dir, 'people.csv'), Person)
+#    phone_numbers = DB.read(File.join(dir, 'phone_numbers.csv'), PhoneNumber)
+#    new(people, phone_numbers)
+#  end
+#
+#  # def find_by_last_name(name)
+#  #   people.find_by(:last_name, name).map {|person|
+#  #     numbers = phone_numbers.find_by(:person_id, person.id).map(&:to_s)
+#  #     Entry.new(person.first_name, person.last_name, numbers)
+#  #   }
+#  # end
+#
+# end

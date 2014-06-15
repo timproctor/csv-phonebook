@@ -21,10 +21,10 @@ class DBTest < Minitest::Test
   def db
     @db ||= DB.read(filename, Thing)
   end
-  
+
   def test_find_by_name
     things = db.find_by(:name, "tire")
-    assert_equal 2, things.size
+    # assert_equal 2, things.size
     assert_equal ["2", "3"], things.map(&:id)
   end
 end
